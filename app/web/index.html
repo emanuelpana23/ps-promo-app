@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>PS Promo App</title>
+</head>
+<body>
+
+<h1>🎮 Promoções PlayStation</h1>
+
+<button onclick="loadGames()">Buscar jogos</button>
+<button onclick="loadPromos()">Ver promoções</button>
+
+<ul id="list"></ul>
+
+<script>
+async function loadGames() {
+  const res = await fetch("http://localhost:5000/games");
+  const data = await res.json();
+  show(data);
+}
+
+async function loadPromos() {
+  const res = await fetch("http://localhost:5000/notify");
+  const data = await res.json();
+  show(data);
+}
+
+function show(games) {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  games.forEach(g => {
+    const li = document.createElement("li");
+    li.innerText = g.name + " - R$ " + g.price;
+    list.appendChild(li);
+  });
+}
+</script>
+
+</body>
+</html>
